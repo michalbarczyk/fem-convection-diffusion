@@ -35,7 +35,7 @@ public class FEMEngine extends ApplicationFrame {
 
     }
 
-    public FEMEngine(int N, int k, String title) {
+    public FEMEngine(int N, double k, String title) {
 
         super(title);
         this.N = N;
@@ -98,31 +98,41 @@ public class FEMEngine extends ApplicationFrame {
     }
 
     private void createMatrixB() {
-        B = B.createMatrix(N, N);
+        B = B.createMatrix(N+1, N+1);
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                B.setEntry(i, j, calcB(i+1, j+1));
+        for (int i = 0; i < N+1; i++) {
+
+            B.setEntry(0, i, 0.0);
+            B.setEntry(i, 0, 0.0);
+        }
+
+        B.setEntry(0,0, 1.0);
+
+        for (int i = 1; i < N+1; i++) {
+            for (int j = 1; j < N+1; j++) {
+                B.setEntry(i, j, calcB(i, j));
             }
         }
-        //System.out.print(B);
+        System.out.print(B);
     }
 
     private void createMatrixL() {
 
-        L = L.createMatrix(N, 1);
+        L = L.createMatrix(N+1, 1);
 
-        for (int j = 0; j < N; j++) {
+        L.setEntry(0, 0, 0.0);
 
-            L.setEntry(j, 0, calcL(j+1));
+        for (int j = 1; j < N+1; j++) {
+
+            L.setEntry(j, 0, calcL(j));
         }
 
-        //System.out.print(L);
+        System.out.print(L);
     }
 
     private void solve() {
         DecompositionSolver solver = new LUDecomposition(B).getSolver();
-        W.createMatrix(N, 1);
+        W.createMatrix(N+1, 1);
         W = solver.solve(L);
         System.out.print(W);
         this.resultFunction = new ResultFunction(W, testFunctions);
@@ -158,8 +168,6 @@ public class FEMEngine extends ApplicationFrame {
         if (eI > eJ) {
             integralP = elementWidth * 0.5 * N;
             integralQ = elementWidth * N * N * -1.0;
-
-
         }
 
         if (eI < eJ) {

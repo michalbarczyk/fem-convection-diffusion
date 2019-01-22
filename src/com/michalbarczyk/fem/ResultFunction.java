@@ -16,10 +16,10 @@ public class ResultFunction implements UnivariateFunction {
     @Override
     public double value(double x){
 
-        double v = 0.0 ;//(1.0-x) * 5.0;
+        double v = (1.0-x) * 5.0;
 
         for (int i = 0; i < W.length; i++) {
-            v += W[i] * testFunctions[i+1].value(x);
+            v += W[i] * testFunctions[i].value(x);
         }
 
         return v;

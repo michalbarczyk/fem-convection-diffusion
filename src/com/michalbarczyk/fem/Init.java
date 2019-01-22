@@ -6,7 +6,7 @@ public class Init {
 
     public static void main(String[] args) {
 
-        final FEMEngine femEngine = new FEMEngine(3,1, "conv-diff");
+        final FEMEngine femEngine = new FEMEngine(20,0.5, "conv-diff");
         femEngine.calculate();
         femEngine.pack();
         RefineryUtilities.centerFrameOnScreen(femEngine);
