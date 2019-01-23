@@ -6,12 +6,10 @@ public class Init {
 
     public static void main(String[] args) {
 
-        final FEMEngine femEngine = new FEMEngine(20,0.5, "conv-diff");
+        FEMEngine femEngine = new FEMEngine(Integer.valueOf(args[0]), Double.valueOf(args[1]), "conv-diff");
         femEngine.calculate();
         femEngine.pack();
         RefineryUtilities.centerFrameOnScreen(femEngine);
         femEngine.setVisible(true);
-
-
     }
 }
